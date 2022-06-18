@@ -18,8 +18,7 @@ if (isset($_GET['apicall'])) {
         case 'signup':
 
             //checking the parameters required are available or not
-            if (isTheseParametersAvailable(array('full_name', 'email', 'user_phone', 'password'))) {
-
+            if (isTheseParametersAvailable(array('fname','lname', 'user_phone', 'address','password'))) {
                 //getting the values
                 $full_name = $_POST['full_name'];
                 $email = $_POST['email'];
@@ -29,11 +28,10 @@ if (isset($_GET['apicall'])) {
 
                 //checking if the user is already exist with this username or email
                 //as the email and username should be unique for every user
-                $stmt = $conn->prepare("SELECT id FROM users WHERE phone = ? OR email = ?");
+                $stmt = $conn->prepare("SELECT userid FROM users WHERE phone = ? OR email = ?");
                 $stmt->bind_param("ss", $user_phone, $email);
                 $stmt->execute();
                 $stmt->store_result();
-
 
                 //if the user already exist in the database
                 if ($stmt->num_rows > 0) {
@@ -43,14 +41,14 @@ if (isset($_GET['apicall'])) {
                 } else {
 
                     //if user is new creating an insert query
-                    $stmt = $conn->prepare("INSERT INTO users (name, email,password, phone,verification_code) VALUES (?, ?, ?, ?, ?)");
-                    $stmt->bind_param("sssss", $full_name, $email, $password, $user_phone, $verification_code);
+                    $stmt = $conn->prepare("INSERT INTO users (fname,lname,email,phone,address,password) VALUES (?, ?, ?, ?, ?)");
+                    $stmt->bind_param("sssss", $full_name,$lname, $email,  $user_phone,$address, $password,);
 
                     //if the user is successfully added to the database
                     if ($stmt->execute()) {
 
                         //fetching the user back
-                        $stmt = $conn->prepare("SELECT id, name, email, phone FROM users WHERE phone = ? OR email = ?");
+                        $stmt = $conn->prepare("SELECT userid, fname,lname,email, phone FROM users WHERE phone = ? OR email = ?");
                         $stmt->bind_param("ss", $user_phone, $email);
                         $stmt->execute();
                         $stmt->bind_result($customer_id, $customer_full_name, $customer_email, $customer_phone_number);
@@ -101,10 +99,10 @@ if (isset($_GET['apicall'])) {
 
                         if ($check_email) {
                             // email & password combination
-                            $stmt = $conn->prepare("SELECT id, name, email, phone FROM users WHERE email = ? ");
+                            $stmt = $conn->prepare("SELECT userid, fname,lname,email, phone FROM users WHERE email = ? ");
                         } else {
                             // username & password combination
-                            $stmt = $conn->prepare("SELECT id, name, email, phone FROM users WHERE phone = ? ");
+                            $stmt = $conn->prepare("SELECT userid, fname,lname,email, phone FROM users WHERE phone = ? ");
                         }
 
                         //creating the query
