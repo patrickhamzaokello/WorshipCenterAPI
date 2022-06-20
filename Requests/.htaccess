@@ -1,0 +1,4 @@
+RewriteEngine On    # Turn on the rewriting engine
+RewriteRule ^homefeed_request$ homefeed_request.php [NC,L]
+RewriteRule ^selected_event$ selected_event.php [NC,L]
+RewriteRule ^account$ account.php [NC,L]

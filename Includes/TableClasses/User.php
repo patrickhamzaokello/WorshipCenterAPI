@@ -3,9 +3,9 @@
 class User
 {
     private $Table = "users";
-    private $userid, $userstatus, $username, $profileimage,$fname, $lname, $phone, $email, $password, $mediaIdentifier, $position, $bpdate,
+    private $userid, $userstatus, $username, $profileimage, $fname, $lname, $phone, $email, $password, $mediaIdentifier, $position, $bpdate,
         $blood, $dob, $nationality, $about, $address, $city, $country, $postal, $terms_and_condition,
-        $cdate, $facebook, $twitter, $googleplus, $linkedin, $youtube, $pinterest,$instagram, $whatsapp;
+        $cdate, $facebook, $twitter, $googleplus, $linkedin, $youtube, $pinterest, $instagram, $whatsapp;
 
     private $conn;
 
@@ -23,12 +23,12 @@ class User
         while ($stmt->fetch()) {
             $this->userid = $this->userid;
             $this->userstatus = $this->userstatus;
-            $this->username =  $this->username;
-            $this->profileimage =  $this->profileimage;
-            $this->fname =  $this->fname;
+            $this->username = $this->username;
+            $this->profileimage = $this->profileimage;
+            $this->fname = $this->fname;
             $this->lname = $this->lname;
             $this->phone = $this->phone;
-            $this->email= $this->email;
+            $this->email = $this->email;
             $this->password = $this->password;
             $this->mediaIdentifier = $this->mediaIdentifier;
             $this->position = $this->position;
@@ -293,11 +293,6 @@ class User
     {
         return $this->whatsapp;
     }
-
-
-
-
-
 
 
 }
