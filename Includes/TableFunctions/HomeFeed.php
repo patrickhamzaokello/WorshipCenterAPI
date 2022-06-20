@@ -322,5 +322,4 @@ class HomeFeed
 	}
 
 
-
 }

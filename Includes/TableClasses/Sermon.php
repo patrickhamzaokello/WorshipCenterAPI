@@ -2,7 +2,7 @@
 
 class Sermon
 {
-    private $Table = "users";
+    private $Table = "sermon";
     private $conn;
 
     private $sermonid, $sermonbanner, $sermontitle, $sermondate, $sermontime, $sermonlocation, $sermonauthor, $sermonyoutube, $sermonsoundcloud, $sermondescription, $video, $audio, $file, $cdate;
@@ -16,7 +16,7 @@ class Sermon
         $this->conn = $conn;
         $this->sermonid = $sermonid;
 
-        $stmt = $this->conn->prepare("SELECT `sermonid`, `sermonbanner`, `sermontitle`, `sermondate`, `sermontime`, `sermonlocation`, `sermonauthor`, `sermonyoutube`, `sermonsoundcloud`, `sermondescription`, `video`, `audio`, `file`, `cdate` FROM " . $this->Table . " WHERE sermonid = ? LIMIT 1;");
+        $stmt = $this->conn->prepare("SELECT `sermonid`, `sermonbanner`, `sermontitle`, `sermondate`, `sermontime`, `sermonlocation`, `sermonauthor`, `sermonyoutube`, `sermonsoundcloud`, `sermondescription`, `video`, `audio`, `file`, `cdate` FROM " . $this->Table . " WHERE `sermonid` = ? LIMIT 1;");
         $stmt->bind_param("i", $this->sermonid);
         $stmt->execute();
         $stmt->bind_result($this->sermonid, $this->sermonbanner, $this->sermontitle, $this->sermondate, $this->sermontime, $this->sermonlocation, $this->sermonauthor, $this->sermonyoutube, $this->sermonsoundcloud, $this->sermondescription, $this->video, $this->audio, $this->file, $this->cdate);
