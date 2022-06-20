@@ -4,8 +4,7 @@ class Home
 {
     public $page;
     private $conn;
-    private $imagePathRoot  = "https://d2t03bblpoql2z.cloudfront.net/";
-
+    private $imagePathRoot = "https://d2t03bblpoql2z.cloudfront.net/";
 
 
     public function __construct($con, $page)
@@ -15,7 +14,8 @@ class Home
     }
 
 
-    function allCombined(){
+    function allCombined()
+    {
 
         $page_no = floatval($this->page);
         $no_of_records_per_page = 10;
@@ -28,22 +28,21 @@ class Home
         $total_pages = ceil($total_rows / $no_of_records_per_page);
 
 
-
         //main arrays
         $sermon_ids = array();
         $home_feed = array();
 
 
         if ($page_no == 1) {
+
+//            get sliders begin
             $sliders = array();
             $slidermeta_img_path = array();
             $home_slider_stmt = "SELECT DISTINCT(sliderid) FROM slider  ORDER BY `slider`.`cdate` DESC LIMIT 4 ";
             $slider_id_result = mysqli_query($this->conn, $home_slider_stmt);
-
             while ($row = mysqli_fetch_array($slider_id_result)) {
                 array_push($sliders, $row['sliderid']);
             }
-
             foreach ($sliders as $row) {
                 $slider = new Slider($this->conn, intval($row));
                 $temp = array();
@@ -54,11 +53,46 @@ class Home
 
                 array_push($slidermeta_img_path, $temp);
             }
-
             $slider_temps = array();
             $slider_temps['sliderBanners'] = $slidermeta_img_path;
             array_push($home_feed, $slider_temps);
 
+//            end sliders
+
+//            get dailyhighlights
+
+
+//            end dailyhighlights
+
+
+//            get events
+            $events = array();
+            $home_events = array();
+            $home_slider_stmt = "SELECT DISTINCT(eventid) FROM event  ORDER BY `event`.`eventid` DESC LIMIT 10 ";
+            $slider_id_result = mysqli_query($this->conn, $home_slider_stmt);
+            while ($row = mysqli_fetch_array($slider_id_result)) {
+                array_push($events, $row['eventid']);
+            }
+            foreach ($events as $row) {
+                $event = new Event($this->conn, intval($row));
+                $temp = array();
+                $temp['eventid'] = $event->getEventid();
+                $temp['eventimage'] = $event->getEventimage();
+                $temp['eventtitle'] = $event->getEventid();
+                $temp['eventdate'] = $event->getEventdate();
+                $temp['eventtime'] = $event->getEventtime();
+                $temp['eventlocation'] = $event->getEventlocation();
+                $temp['eventdescription'] = $event->getEventdescription();
+                $temp['eventstartdate'] = $event->getEventstartdate();
+                $temp['eventenddate'] = $event->getEventenddate();
+                $temp['cdate'] = $event->getCdate();
+                array_push($home_events, $temp);
+            }
+            $slider_temps = array();
+            $slider_temps['home_events'] = $home_events;
+            array_push($home_feed, $slider_temps);
+
+//            end events
 
 
         }
@@ -102,7 +136,6 @@ class Home
         $itemRecords["total_results"] = $total_rows;
 
         return $itemRecords;
-
 
 
     }
