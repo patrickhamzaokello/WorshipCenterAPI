@@ -61,16 +61,38 @@ class Home
 
 //            get dailyhighlights
 
+            $dailyhighlights = array();
+            $home_highlights = array();
+            $home_highlights_stmt = "SELECT DISTINCT(id) FROM news WHERE status= 1  ORDER BY `news`.`id` DESC LIMIT 5 ";
+            $highlights_id_result = mysqli_query($this->conn, $home_highlights_stmt);
+            while ($row = mysqli_fetch_array($highlights_id_result)) {
+                array_push($dailyhighlights, $row['id']);
+            }
+            foreach ($dailyhighlights as $row) {
+                $news = new News($this->conn, intval($row));
+                $temp = array();
+                $temp['news_id'] = $news->getId();
+                $temp['news_title'] = $news->getTitle();
+                $temp['news_description'] = $news->getDescription();
+                $temp['verse'] = $news->getVerse();
+                $temp['author'] = $news->getAuthor();
+                $temp['cdate'] = $news->getCdate();
+                $temp['status'] = $news->getStatus();
+                array_push($home_highlights, $temp);
+            }
+            $home_highlights_temps = array();
+            $home_highlights_temps['daily_highlights'] = $home_highlights;
+            array_push($home_feed, $home_highlights_temps);
 
-//            end dailyhighlights
+            //            end dailyhighlights
 
 
 //            get events
             $events = array();
             $home_events = array();
-            $home_slider_stmt = "SELECT DISTINCT(eventid) FROM event  ORDER BY `event`.`eventid` DESC LIMIT 10 ";
-            $slider_id_result = mysqli_query($this->conn, $home_slider_stmt);
-            while ($row = mysqli_fetch_array($slider_id_result)) {
+            $home_events_stmt = "SELECT DISTINCT(eventid) FROM event  ORDER BY `event`.`eventid` DESC LIMIT 10 ";
+            $home_id_result = mysqli_query($this->conn, $home_events_stmt);
+            while ($row = mysqli_fetch_array($home_id_result)) {
                 array_push($events, $row['eventid']);
             }
             foreach ($events as $row) {
@@ -88,12 +110,11 @@ class Home
                 $temp['cdate'] = $event->getCdate();
                 array_push($home_events, $temp);
             }
-            $slider_temps = array();
-            $slider_temps['home_events'] = $home_events;
-            array_push($home_feed, $slider_temps);
+            $events_temps = array();
+            $events_temps['home_events'] = $home_events;
+            array_push($home_feed, $events_temps);
 
 //            end events
-
 
         }
 

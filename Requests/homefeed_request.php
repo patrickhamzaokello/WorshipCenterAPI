@@ -9,6 +9,7 @@ include_once '../Includes/TableClasses/Event.php';
 include_once '../Includes/TableClasses/Sermon.php';
 include_once '../Includes/TableClasses/Slider.php';
 include_once '../Includes/TableClasses/User.php';
+include_once '../Includes/TableClasses/News.php';
 include_once '../Includes/TableFunctions/Home.php';
 
 $database = new Database();
