@@ -100,7 +100,7 @@ class Home
                 $temp = array();
                 $temp['eventid'] = $event->getEventid();
                 $temp['eventimage'] = $event->getEventimage();
-                $temp['eventtitle'] = $event->getEventid();
+                $temp['eventtitle'] = $event->getEventtitle();
                 $temp['eventdate'] = $event->getEventdate();
                 $temp['eventtime'] = $event->getEventtime();
                 $temp['eventlocation'] = $event->getEventlocation();

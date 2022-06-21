@@ -49,6 +49,13 @@ class Event
      */
     public function getEventimage()
     {
+        $imagePath = "https://worshipcenterdowntown.com/assets/assets/images/event/feature/";
+
+//        if link doesnt start with http, add the default image path
+        if (!(strpos($this->eventimage, 'http') === 0)) {
+            $this->eventimage = $imagePath.$this->eventimage;
+        }
+
         return $this->eventimage;
     }
 
