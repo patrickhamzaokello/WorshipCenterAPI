@@ -111,6 +111,8 @@ class Home
                 array_push($home_events, $temp);
             }
             $events_temps = array();
+            $events_temps['heading'] = "Events";
+            $events_temps['label'] = "All  whats happening around church";
             $events_temps['home_events'] = $home_events;
             array_push($home_feed, $events_temps);
 
@@ -118,7 +120,7 @@ class Home
 
         }
 
-
+        $home_sermons = array();
         // fetch all major sermons
         $category_stmt = "SELECT DISTINCT(sermonid) FROM sermon  ORDER BY `sermon`.`sermondate` DESC LIMIT " . $offset . "," . $no_of_records_per_page . "";
         $menu_type_id_result = mysqli_query($this->conn, $category_stmt);
@@ -147,8 +149,17 @@ class Home
             $temp['file'] = $sermon->getFile();
             $temp['cdate'] = $sermon->getCdate();
 
-            array_push($home_feed, $temp);
+            array_push($home_sermons, $temp);
         }
+
+        $home_sermons_temps = array();
+        $home_sermons_temps['heading'] = "Latest Sermons";
+        $home_sermons_temps['label'] = "Catchup with all sermons preached.";
+        $home_sermons_temps['home_sermons'] = $home_sermons;
+        array_push($home_feed, $home_sermons_temps);
+
+
+
 
 
         $itemRecords["page"] = $page_no;
