@@ -1,6 +1,6 @@
 <?php
 
-class SermonPage
+class EventPage
 {
     public $page;
     private $conn;
@@ -15,15 +15,15 @@ class SermonPage
     }
 
 
-    function selectedSermon(){
+    function selectedEvent(){
         $itemRecords = array();
         $page_no = floatval($this->page);
-        $this->sermonID = htmlspecialchars(strip_tags($_GET["sermonID"]));
+        $this->sermonID = htmlspecialchars(strip_tags($_GET["eventID"]));
 
         $no_of_records_per_page = 3;
         $offset = ($page_no - 1) * $no_of_records_per_page;
 
-        $sql = "SELECT COUNT(DISTINCT(sermonid)) as count FROM sermon WHERE sermonid != ".$this->sermonID."  ORDER BY `sermon`.`sermonid` DESC limit 1";
+        $sql = "SELECT COUNT(DISTINCT(eventid)) as count FROM event WHERE eventid != ".$this->sermonID."  ORDER BY `event`.`eventid` DESC limit 1";
         $result = mysqli_query($this->conn, $sql);
         $data = mysqli_fetch_assoc($result);
         $total_rows = floatval($data['count']);
@@ -31,33 +31,28 @@ class SermonPage
 
 
         $itemRecords["page"] = $page_no;
-        $itemRecords["SelectedSermon"] = array();
+        $itemRecords["SelectedEvent"] = array();
         $itemRecords["total_pages"] = $total_pages;
         $itemRecords["total_results"] = $total_rows;
 
         if($page_no == 1){
-            $menu_type_data = new Sermon($this->conn, $this->sermonID);
+            $event = new Event($this->conn, $this->sermonID);
 
             $sel_category = array();
 
-            if ($menu_type_data) {
+            if ($event) {
                 $temp = array();
-                $temp['sermonid'] = $menu_type_data->getSermonid();
-                $temp['sermonbanner'] = $menu_type_data->getSermonbanner();
-                $temp['sermontitle'] = $menu_type_data->getSermontitle();
-                $temp['sermondate'] = $menu_type_data->getSermondate();
-                $temp['sermontime'] = $menu_type_data->getSermontime();
-                $temp['sermonlocation'] = $menu_type_data->getSermonlocation();
-                $temp['sermonauthor'] = $menu_type_data->getSermonauthor();
-                $temp['sermonyoutube'] = $menu_type_data->getSermonyoutube();
-                $temp['sermonsoundcloud'] =$menu_type_data->getSermonsoundcloud();
-                $temp['sermondescription'] = $menu_type_data->getSermondescription();
-                $temp['video'] = $menu_type_data->getVideo();
-                $temp['audio'] = $menu_type_data->getAudio();
-                $temp['file'] = $menu_type_data->getFile();
-                $temp['cdate'] = $menu_type_data->getCdate();
-
-                array_push($itemRecords["SelectedSermon"], $temp);
+                $temp['eventid'] = $event->getEventid();
+                $temp['eventimage'] = $event->getEventimage();
+                $temp['eventtitle'] = $event->getEventtitle();
+                $temp['eventdate'] = $event->getEventdate();
+                $temp['eventtime'] = $event->getEventtime();
+                $temp['eventlocation'] = $event->getEventlocation();
+                $temp['eventdescription'] = $event->getEventdescription();
+                $temp['eventstartdate'] = $event->getEventstartdate();
+                $temp['eventenddate'] = $event->getEventenddate();
+                $temp['cdate'] = $event->getCdate();
+                array_push($itemRecords["SelectedEvent"], $temp);
 
             }
 
@@ -71,39 +66,35 @@ class SermonPage
 
         $home_sermons = array();
         // fetch all major sermons
-        $home_sermons_stmt = "SELECT DISTINCT(sermonid) FROM sermon WHERE sermonid != ".$this->sermonID."   ORDER BY `sermon`.`sermondate` DESC LIMIT " . $offset . "," . $no_of_records_per_page . "";
+        $home_sermons_stmt = "SELECT DISTINCT(eventid) FROM event WHERE eventid != ".$this->sermonID."   ORDER BY `event`.`eventdate` DESC LIMIT " . $offset . "," . $no_of_records_per_page . "";
         $menu_type_id_result = mysqli_query($this->conn, $home_sermons_stmt);
 
         while ($row = mysqli_fetch_array($menu_type_id_result)) {
 
-            array_push($sermon_ids, $row['sermonid']);
+            array_push($sermon_ids, $row['eventid']);
         }
 
 
         foreach ($sermon_ids as $row) {
-            $sermon = new Sermon($this->conn, intval($row));
+            $event = new Event($this->conn, intval($row));
             $temp = array();
-            $temp['sermonid'] = $sermon->getSermonid();
-            $temp['sermonbanner'] = $sermon->getSermonbanner();
-            $temp['sermontitle'] = $sermon->getSermontitle();
-            $temp['sermondate'] = $sermon->getSermondate();
-            $temp['sermontime'] = $sermon->getSermontime();
-            $temp['sermonlocation'] = $sermon->getSermonlocation();
-            $temp['sermonauthor'] = $sermon->getSermonauthor();
-            $temp['sermonyoutube'] = $sermon->getSermonyoutube();
-            $temp['sermonsoundcloud'] = $sermon->getSermonsoundcloud();
-            $temp['sermondescription'] = $sermon->getSermondescription();
-            $temp['video'] = $sermon->getVideo();
-            $temp['audio'] = $sermon->getAudio();
-            $temp['file'] = $sermon->getFile();
-            $temp['cdate'] = $sermon->getCdate();
+            $temp['eventid'] = $event->getEventid();
+            $temp['eventimage'] = $event->getEventimage();
+            $temp['eventtitle'] = $event->getEventtitle();
+            $temp['eventdate'] = $event->getEventdate();
+            $temp['eventtime'] = $event->getEventtime();
+            $temp['eventlocation'] = $event->getEventlocation();
+            $temp['eventdescription'] = $event->getEventdescription();
+            $temp['eventstartdate'] = $event->getEventstartdate();
+            $temp['eventenddate'] = $event->getEventenddate();
+            $temp['cdate'] = $event->getCdate();
 
             array_push($home_sermons, $temp);
         }
 
         $sermons_page_temps = array();
-        $sermons_page_temps['home_sermons'] = $home_sermons;
-        array_push($itemRecords["SelectedSermon"], $sermons_page_temps);
+        $sermons_page_temps['home_events'] = $home_sermons;
+        array_push($itemRecords["SelectedEvent"], $sermons_page_temps);
 
 
         return $itemRecords;
