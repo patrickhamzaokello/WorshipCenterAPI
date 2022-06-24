@@ -11,7 +11,7 @@ include("config.php");
 <div class="container">
  <div class="row">
    <div class="col-sm-12">
-       <h1>Questions</h1>
+       <h1 style="padding: 2em;">Questions</h1>
     <?php echo $deleteMsg??''; ?>
     <div class="table-responsive">
       <table class="table table-bordered">
