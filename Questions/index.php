@@ -30,7 +30,7 @@ include("config.php");
       <td><?php echo $data['id']??''; ?></td>
           <td><?php echo $data['name']??''; ?></td>
       <td><?php echo $data['question']??''; ?></td>
-          <td><?php echo $data['question']??''; ?></td>
+          <td><?php echo date('d M Y h:i A',strtotime($data['created_date'])) ??''; ?></td>
       </tr>
      <?php
       $sn++;}}else{ ?>
