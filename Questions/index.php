@@ -5,11 +5,13 @@ include("config.php");
 <html>
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Questions</title>
 </head>
 <body>
 <div class="container">
  <div class="row">
    <div class="col-sm-12">
+       <h1>Questions</h1>
     <?php echo $deleteMsg??''; ?>
     <div class="table-responsive">
       <table class="table table-bordered">
