@@ -1,6 +1,6 @@
 <?php
 //getting the database connection
-include_once '../../Includes/config/Database.php';
+include_once '../Includes/config/Database.php';
 
 $database = new Database();
 $conn = $database->getConnection();
