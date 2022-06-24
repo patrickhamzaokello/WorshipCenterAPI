@@ -2,7 +2,7 @@
 include("database.php");
 
 $db= $conn;
-$tableName="questions";
+$tableName="question";
 $columns= ['id', 'name','question','created_date'];
 $fetchData = fetch_data($db, $tableName, $columns);
 
