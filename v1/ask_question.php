@@ -7,8 +7,7 @@ $conn = $database->getConnection();
 
 //an array to display response
 $response = array();
-echo "john";
-//if it is an api call 
+//if it is an api call
 //that means a get parameter named api call is set in the URL 
 //and with this parameter we are concluding that it is an api call 
 if (isset($_GET['apicall'])) {
