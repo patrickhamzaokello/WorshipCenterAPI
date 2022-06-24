@@ -54,7 +54,7 @@ class Sermon
      */
     public function getSermonbanner()
     {
-        $imagePath = "https://worshipcenterdowntown.com/assets/assets/images/sermon/feature/";
+        $imagePath = "https://ad.worshipcenterdowntown.com/assets/assets/images/sermon/feature/";
 
 //        if link doesnt start with http, add the default image path
         if (!(strpos($this->sermonbanner, 'http') === 0)) {

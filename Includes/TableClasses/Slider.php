@@ -49,7 +49,7 @@ class Slider
      */
     public function getFilename()
     {
-        $imagePath =  "https://worshipcenterdowntown.com/assets/assets/images/website/slider/";
+        $imagePath =  "https://ad.worshipcenterdowntown.com/assets/assets/images/website/slider/";
 
 //        if link doesnt start with http, add the default image path
         if (!(strpos($this->filename, 'http') === 0)) {
