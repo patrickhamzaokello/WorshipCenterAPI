@@ -59,7 +59,7 @@ class NoticePage
         $sermons_page_temps = array();
         $sermons_page_temps['id'] = 1;
         $sermons_page_temps['heading'] = "Live updates";
-        $sermons_page_temps['label'] = "Dont miss anything happening happening around church";
+        $sermons_page_temps['label'] = "Never miss any important update. always check here.";
         $sermons_page_temps['notice'] = $home_sermons;
         array_push($sermon_feed, $sermons_page_temps);
 
