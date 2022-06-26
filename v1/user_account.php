@@ -26,7 +26,7 @@ if (isset($_GET['apicall'])) {
                 $email = $_POST['email'];
                 $user_phone = $_POST['user_phone'];
                 $address = $_POST['address'];
-                $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                $password = md5($_POST['password']);
 
                 //checking if the user is already exist with this username or email
                 //as the email and username should be unique for every user
