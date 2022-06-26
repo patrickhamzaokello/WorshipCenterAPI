@@ -38,7 +38,7 @@ class Home
 //            get sliders begin
             $sliders = array();
             $slidermeta_img_path = array();
-            $home_slider_stmt = "SELECT DISTINCT(sliderid) FROM slider  ORDER BY `slider`.`cdate` DESC LIMIT 4 ";
+            $home_slider_stmt = "SELECT DISTINCT(sliderid) FROM slider  ORDER BY `slider`.`sliderid` DESC LIMIT 4 ";
             $slider_id_result = mysqli_query($this->conn, $home_slider_stmt);
             while ($row = mysqli_fetch_array($slider_id_result)) {
                 array_push($sliders, $row['sliderid']);
