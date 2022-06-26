@@ -88,7 +88,7 @@ if (isset($_GET['apicall'])) {
             if (isTheseParametersAvailable(array('username', 'password'))) {
                 //getting values
                 $username = $_POST['username'];
-                $password = $_POST['password'];
+                $password = md5($_POST['password']);
 
 
                 $sql = "select * from users where email = '" . $username . "' OR phone = '" . $username . "' ";
@@ -97,7 +97,7 @@ if (isset($_GET['apicall'])) {
 
                 if ($numRows == 1) {
                     $row = mysqli_fetch_assoc($rs);
-                    if (password_verify($password, $row['password'])) {
+                    if ($password == $row['password']) {
                         $check_email = Is_email($username);
 
                         if ($check_email) {
