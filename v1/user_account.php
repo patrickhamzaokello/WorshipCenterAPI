@@ -18,7 +18,7 @@ if (isset($_GET['apicall'])) {
         case 'signup':
 
             //checking the parameters required are available or not
-            if (isTheseParametersAvailable(array('fname', 'lname', 'user_phone', 'address', 'password'))) {
+            if (isTheseParametersAvailable(array('fname', 'lname', 'email','user_phone', 'address', 'password'))) {
                 //getting the values
                 $fname = $_POST['fname'];
                 $lname = $_POST['lname'];
@@ -34,7 +34,7 @@ if (isset($_GET['apicall'])) {
                 $stmt->bind_param("ss", $user_phone, $email);
                 $stmt->execute();
                 $stmt->store_result();
-                echo pk;
+
                 //if the user already exist in the database
                 if ($stmt->num_rows > 0) {
                     $response['error'] = true;
