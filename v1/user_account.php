@@ -50,10 +50,10 @@ if (isset($_GET['apicall'])) {
                     if ($stmt->execute()) {
 
                         //fetching the user back
-                        $stmt = $conn->prepare("SELECT userid, fname,lname,email, phone FROM users WHERE phone = ? OR email = ?");
+                        $stmt = $conn->prepare("SELECT userid, fname,lname,email, phone,address FROM users WHERE phone = ? OR email = ?");
                         $stmt->bind_param("ss", $user_phone, $email);
                         $stmt->execute();
-                        $stmt->bind_result($customer_id, $customer_fname, $customer_lname, $customer_email, $customer_phone_number);
+                        $stmt->bind_result($customer_id, $customer_fname, $customer_lname, $customer_email, $customer_phone_number,$user_address);
 
                         $stmt->fetch();
 
@@ -64,6 +64,7 @@ if (isset($_GET['apicall'])) {
                             'lname' => $customer_lname,
                             'email' => $customer_email,
                             'phone' => $customer_phone_number,
+                            'address' => $user_address
                         );
 
 
@@ -102,10 +103,10 @@ if (isset($_GET['apicall'])) {
 
                         if ($check_email) {
                             // email & password combination
-                            $stmt = $conn->prepare("SELECT userid, fname,lname,email, phone FROM users WHERE email = ? ");
+                            $stmt = $conn->prepare("SELECT userid, fname,lname,email, phone,address FROM users WHERE email = ? ");
                         } else {
                             // username & password combination
-                            $stmt = $conn->prepare("SELECT userid, fname,lname,email, phone FROM users WHERE phone = ? ");
+                            $stmt = $conn->prepare("SELECT userid, fname,lname,email, phone,address FROM users WHERE phone = ? ");
                         }
 
                         //creating the query
@@ -118,7 +119,7 @@ if (isset($_GET['apicall'])) {
                         //if the user exist with given credentials
                         if ($stmt->num_rows > 0) {
 
-                            $stmt->bind_result($customer_id, $customer_fname, $customer_lastname, $customer_email, $customer_phone_number);
+                            $stmt->bind_result($customer_id, $customer_fname, $customer_lastname, $customer_email, $customer_phone_number,$user_address);
                             $stmt->fetch();
 
                             $user = array(
@@ -127,6 +128,7 @@ if (isset($_GET['apicall'])) {
                                 'lname' => $customer_lastname,
                                 'email' => $customer_email,
                                 'phone' => $customer_phone_number,
+                                'address' => $user_address
                             );
 
                             $response['error'] = false;
