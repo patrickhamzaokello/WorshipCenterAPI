@@ -122,7 +122,7 @@ class Home
 
         $home_sermons = array();
         // fetch all major sermons
-        $category_stmt = "SELECT DISTINCT(sermonid) FROM sermon  ORDER BY `sermon`.`sermondate` DESC LIMIT " . $offset . "," . $no_of_records_per_page . "";
+        $category_stmt = "SELECT DISTINCT(sermonid) FROM sermon  ORDER BY `sermon`.`sermonid` DESC LIMIT " . $offset . "," . $no_of_records_per_page . "";
         $menu_type_id_result = mysqli_query($this->conn, $category_stmt);
 
         while ($row = mysqli_fetch_array($menu_type_id_result)) {

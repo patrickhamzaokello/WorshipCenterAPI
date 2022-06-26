@@ -66,7 +66,7 @@ class EventPage
 
         $home_sermons = array();
         // fetch all major sermons
-        $home_sermons_stmt = "SELECT DISTINCT(eventid) FROM event WHERE eventid != ".$this->sermonID."   ORDER BY `event`.`eventdate` DESC LIMIT " . $offset . "," . $no_of_records_per_page . "";
+        $home_sermons_stmt = "SELECT DISTINCT(eventid) FROM event WHERE eventid != ".$this->sermonID."   ORDER BY `event`.`eventid` DESC LIMIT " . $offset . "," . $no_of_records_per_page . "";
         $menu_type_id_result = mysqli_query($this->conn, $home_sermons_stmt);
 
         while ($row = mysqli_fetch_array($menu_type_id_result)) {
@@ -122,7 +122,7 @@ class EventPage
 
         $home_sermons = array();
         // fetch all major sermons
-        $home_sermons_stmt = "SELECT DISTINCT(sermonid) FROM sermon  ORDER BY `sermon`.`sermondate` DESC LIMIT " . $offset . "," . $no_of_records_per_page . "";
+        $home_sermons_stmt = "SELECT DISTINCT(sermonid) FROM sermon  ORDER BY `sermon`.`sermonid` DESC LIMIT " . $offset . "," . $no_of_records_per_page . "";
         $menu_type_id_result = mysqli_query($this->conn, $home_sermons_stmt);
 
         while ($row = mysqli_fetch_array($menu_type_id_result)) {
