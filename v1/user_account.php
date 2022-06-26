@@ -20,11 +20,13 @@ if (isset($_GET['apicall'])) {
             //checking the parameters required are available or not
             if (isTheseParametersAvailable(array('fname','lname', 'user_phone', 'address','password'))) {
                 //getting the values
-                $full_name = $_POST['full_name'];
+                $fname = $_POST['fname'];
+                $lname = $_POST['lname'];
+                $username = $_POST['fname'].$_POST['lname'];
                 $email = $_POST['email'];
                 $user_phone = $_POST['user_phone'];
+                $address = $_POST['address'];
                 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                $verification_code = "mobile_" . rand(100000, 999999);
 
                 //checking if the user is already exist with this username or email
                 //as the email and username should be unique for every user
@@ -41,8 +43,8 @@ if (isset($_GET['apicall'])) {
                 } else {
 
                     //if user is new creating an insert query
-                    $stmt = $conn->prepare("INSERT INTO users (fname,lname,email,phone,address,password) VALUES (?, ?, ?, ?, ?)");
-                    $stmt->bind_param("sssss", $full_name,$lname, $email,  $user_phone,$address, $password,);
+                    $stmt = $conn->prepare("INSERT INTO users (username,fname,lname,email,phone,address,password) VALUES (?,?, ?, ?, ?, ?,?)");
+                    $stmt->bind_param("sssssss", $username,$fname,$lname, $email,  $user_phone,$address, $password,);
 
                     //if the user is successfully added to the database
                     if ($stmt->execute()) {
@@ -51,14 +53,15 @@ if (isset($_GET['apicall'])) {
                         $stmt = $conn->prepare("SELECT userid, fname,lname,email, phone FROM users WHERE phone = ? OR email = ?");
                         $stmt->bind_param("ss", $user_phone, $email);
                         $stmt->execute();
-                        $stmt->bind_result($customer_id, $customer_full_name, $customer_email, $customer_phone_number);
+                        $stmt->bind_result($customer_id, $customer_fname,$customer_lname , $customer_email, $customer_phone_number);
 
                         $stmt->fetch();
 
 
                         $user = array(
                             'id' => $customer_id,
-                            'fullname' => $customer_full_name,
+                            'fname' => $customer_fname,
+                            'lname' => $customer_lname,
                             'email' => $customer_email,
                             'phone' => $customer_phone_number,
                         );
@@ -115,12 +118,13 @@ if (isset($_GET['apicall'])) {
                         //if the user exist with given credentials
                         if ($stmt->num_rows > 0) {
 
-                            $stmt->bind_result($customer_id, $customer_full_name, $customer_email, $customer_phone_number);
+                            $stmt->bind_result($customer_id, $customer_fname,$customer_lastname, $customer_email, $customer_phone_number);
                             $stmt->fetch();
 
                             $user = array(
                                 'id' => $customer_id,
-                                'fullname' => $customer_full_name,
+                                'fname' => $customer_fname,
+                                'lname' => $customer_lastname,
                                 'email' => $customer_email,
                                 'phone' => $customer_phone_number,
                             );
