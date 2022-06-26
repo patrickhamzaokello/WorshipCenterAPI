@@ -18,11 +18,11 @@ if (isset($_GET['apicall'])) {
         case 'signup':
 
             //checking the parameters required are available or not
-            if (isTheseParametersAvailable(array('fname','lname', 'user_phone', 'address','password'))) {
+            if (isTheseParametersAvailable(array('fname', 'lname', 'user_phone', 'address', 'password'))) {
                 //getting the values
                 $fname = $_POST['fname'];
                 $lname = $_POST['lname'];
-                $username = $_POST['fname'].$_POST['lname'];
+                $username = $_POST['fname'] . $_POST['lname'];
                 $email = $_POST['email'];
                 $user_phone = $_POST['user_phone'];
                 $address = $_POST['address'];
@@ -34,7 +34,7 @@ if (isset($_GET['apicall'])) {
                 $stmt->bind_param("ss", $user_phone, $email);
                 $stmt->execute();
                 $stmt->store_result();
-
+                echo pk;
                 //if the user already exist in the database
                 if ($stmt->num_rows > 0) {
                     $response['error'] = true;
@@ -44,7 +44,7 @@ if (isset($_GET['apicall'])) {
 
                     //if user is new creating an insert query
                     $stmt = $conn->prepare("INSERT INTO users (username,fname,lname,email,phone,address,password) VALUES (?,?, ?, ?, ?, ?,?)");
-                    $stmt->bind_param("sssssss", $username,$fname,$lname, $email,  $user_phone,$address, $password,);
+                    $stmt->bind_param("sssssss", $username, $fname, $lname, $email, $user_phone, $address, $password,);
 
                     //if the user is successfully added to the database
                     if ($stmt->execute()) {
@@ -53,7 +53,7 @@ if (isset($_GET['apicall'])) {
                         $stmt = $conn->prepare("SELECT userid, fname,lname,email, phone FROM users WHERE phone = ? OR email = ?");
                         $stmt->bind_param("ss", $user_phone, $email);
                         $stmt->execute();
-                        $stmt->bind_result($customer_id, $customer_fname,$customer_lname , $customer_email, $customer_phone_number);
+                        $stmt->bind_result($customer_id, $customer_fname, $customer_lname, $customer_email, $customer_phone_number);
 
                         $stmt->fetch();
 
@@ -91,13 +91,13 @@ if (isset($_GET['apicall'])) {
                 $password = $_POST['password'];
 
 
-                $sql = "select * from users where email = '".$username."' OR phone = '".$username."' ";
-                $rs = mysqli_query($conn,$sql);
+                $sql = "select * from users where email = '" . $username . "' OR phone = '" . $username . "' ";
+                $rs = mysqli_query($conn, $sql);
                 $numRows = mysqli_num_rows($rs);
 
-                if($numRows  == 1){
+                if ($numRows == 1) {
                     $row = mysqli_fetch_assoc($rs);
-                    if(password_verify($password,$row['password'])){
+                    if (password_verify($password, $row['password'])) {
                         $check_email = Is_email($username);
 
                         if ($check_email) {
@@ -118,7 +118,7 @@ if (isset($_GET['apicall'])) {
                         //if the user exist with given credentials
                         if ($stmt->num_rows > 0) {
 
-                            $stmt->bind_result($customer_id, $customer_fname,$customer_lastname, $customer_email, $customer_phone_number);
+                            $stmt->bind_result($customer_id, $customer_fname, $customer_lastname, $customer_email, $customer_phone_number);
                             $stmt->fetch();
 
                             $user = array(
@@ -137,13 +137,11 @@ if (isset($_GET['apicall'])) {
                             $response['error'] = true;
                             $response['message'] = 'Your Credentials are invalid!';
                         }
-                    }
-                    else{
+                    } else {
                         $response['error'] = true;
                         $response['message'] = 'Wrong Password';
                     }
-                }
-                else{
+                } else {
                     $response['error'] = true;
                     $response['message'] = 'No User Found';
                 }
